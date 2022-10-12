@@ -41,14 +41,6 @@
     }
   ]
 
-  console.log('zip: ', zip);
-  console.log('list height: ', listHeight);
-
-  if(zip !== '') {
-
-      // if(zip.length === 5)
-  }
-
   const onProviderSelected = cev => {
 		console.log('on provider selected');
         console.log(cev.detail.selectedProvider);
@@ -67,11 +59,6 @@
     <div class="bg-wrapper">
         <img class="bg-img" src="/images/social-1200.png" alt="TheSportsRemote.com"/>
     </div>
-    <Header dropShadowColor="#8ABD5F">
-        <svelte:fragment slot="left-item">
-
-        </svelte:fragment>
-    </Header>
     <div class="container">
         <div class="inner-container">
             <p class="instructions">
@@ -105,11 +92,6 @@
             </div>
         {/if}
     </div>
-    <Footer dropShadowColor="#8ABD5F">
-        <svelte:fragment slot="center-item">
-
-        </svelte:fragment>
-    </Footer>
 </div>
 
 <style>
@@ -187,11 +169,6 @@
     }
 
     @media screen and (min-width: 0px) and (max-width: 1080px) {
-        html,body {
-            height: 70vh;
-            width: 70vw;
-            margin: 0;
-        }
         button {
             width: 125px;
             height: 50px;
@@ -202,43 +179,64 @@
         button.large {
             width: 250px;
         }
-        .action {
-            padding: 3px;
+        input {
+            border-radius: 10px;
+            width: 350px;
+            height: 75px;
+            font-size: 18pt;
+            font-weight: bold;
+            color: #999999;
+            border-color: #999999;
+            font-family: "DejaVu Sans Mono", serif;
         }
-        .container {
-            height: 80%;
-            justify-items: flex-start;
-        }
-        .login-form {
-            margin: 0 auto;
+        .bg-wrapper {
             position: absolute;
-            width: 100vw;
-            justify-content: center;
+            left: 25%;
+            top: 35%;
         }
-        .icon-bar-container {
-            display: none;
+        .bg-img {
+            opacity: .15;
+            width: 60%;
+            height: 60%;
+        }
+        .bold-title-letter {
+            color: darkgreen;
         }
         .main {
+            left: 0px;
+            top: 0px;
             height: 100%;
-            width: 90%;
-            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+            background-color: #000000;
+        }
+        .container {
+            /*margin: 0 auto;*/
+            z-index: 10;
             position: relative;
+            justify-items: flex-start;
         }
-        .mobile-nav {
-            width: 100vw;
+        .inner-container {
+            padding: 10px;
+            margin: 0 auto;
         }
-        .nav-select {
-            width: 90vw;
-            height: 50px;
-            border-radius: 5px;
-            font-size: 18px;
-            text-align: center;
+        .inner-container-list {
+            max-height: var(--listHeight)px;
+            overflow: auto;
         }
-        .title {
-            flex: 1;
-            font-weight: bold;
-            font-size: 18px;
+        .instructions {
+            font-size: 18pt;
             color: #999999;
+            font-family: "DejaVu Sans Mono", serif;
+        }
+        .listings-container {
+            width: 100%;
+        }
+        .sub-title {
+            flex: auto;
+            font-weight: bold;
+            color: #999999;
+            font-size: 1.75em;
         }
     }
 

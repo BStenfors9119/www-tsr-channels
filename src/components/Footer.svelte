@@ -14,10 +14,8 @@
 <style>
     @media screen and (min-width: 0px) and (max-width: 1080px) {
         .footer-container {
-            padding: 15px;
             min-width: 100vw;
             min-height: 50px;
-            box-shadow: 0px -7px 5px -4px var(--dropShadowColor);
         }
 
         .footer-center-item {

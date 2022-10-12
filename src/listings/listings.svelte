@@ -6,19 +6,16 @@
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
-
-    const itemsPerRow = 3;
+    let width = window.innerWidth;
+    const itemsPerRow = width >= 1081 ?  3 : 1;
     const numOfRows = Math.round(listings.length / itemsPerRow);
 
 
     const getActiveListing = (rowIdx, itemsPerRowIdx) => {
         let listing = listings[itemsPerRowIdx];
 
-        console.log('row idx: ', rowIdx);
-
         if(rowIdx > 0) {
             const colIdx = itemsPerRowIdx + itemsPerRow;
-            console.log('col idx: ', colIdx);
             listing = listings[colIdx];
         }
 
@@ -175,27 +172,86 @@
     }
 
     @media screen and (min-width: 0px) and (max-width: 1080px) {
+        html, body {
+            margin: 0;
+            height: 100vh;
+            background-color: var(--bodyColor);
+        }
         button {
             width: 125px;
             height: 50px;
             border-radius: 10px;
             background-color: var(--buttonColor);
             color: white;
+
         }
         button.large {
             width: 250px;
         }
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-items: flex-start;
-            overflow-x: hidden;
-            overflow-y: scroll;
+        .channel-info {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 16pt;
+            display: inline-flex;
         }
-        .inner-container {
+        .channel {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 16pt;
+            color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+            overflow: auto;
+            cursor: pointer;
+        }
+        .game-card {
+            padding: 3px;
+        }
+        .game-info {
+            flex: 8;
+            text-align: left;
+        }
+        .info-header {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 32pt;
+        }
+        .item-row {
+            display: inline-flex;
+        }
+        .listing {
+            display: inline-flex;
+            padding: 3px;
+        }
+        .matchup {
             padding: 5px;
-            width: 85vw;
+            flex: 4;
+        }
+        .select-button {
+            border-radius: 0px 0px 10px 10px;
+            text-align: center;
+            font-size: 25pt;
+            width: 100%;
+            background-color: #999999;
+        }
+        .team {
+            display: inline-flex;
+        }
+        .team-logo {
+            margin-right: 5px;
+        }
+        .team-score {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 32pt;
+        }
+        .vs {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 32pt;
         }
 
     }

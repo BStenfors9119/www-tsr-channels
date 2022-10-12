@@ -20,14 +20,12 @@
 <style>
     @media screen and (min-width: 0px) and (max-width: 1080px) {
         .container {
-            padding: 15px;
             display: flex;
             width: 100%;
             flex-direction: column;
             justify-content: center;
             justify-items: baseline;
             min-height: 50px;
-            box-shadow: 0px 7px 5px -4px var(--dropShadowColor);
         }
 
         .left-item {

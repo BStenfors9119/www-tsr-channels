@@ -104,16 +104,15 @@
         }
 
         .inner-container {
-            padding: 15px;
-            width: var(--cardWidth);
             margin: 0 auto;
             margin-top: 15px;
             flex-direction: column;
             justify-content: center;
             justify-items: center;
             display: flex;
-            box-shadow: 5px 10px 8px var(--dropShadowColor);
-            border-radius: 6px;
+            border: solid 1px darkgreen;
+            border-radius: 10px;
+            background-color: #000000;
         }
 
         .inner-container-child {
@@ -125,8 +124,27 @@
         .title {
             flex: auto;
             font-weight: bold;
+            font-size: 18pt;
             color: var(--titleColor);
-            font-size: var(--titleSize);
+        }
+
+        .main-button {
+            flex: 1
+        }
+
+        .main-label {
+            flex: 11;
+            font-weight: bold;
+            font-family: "DejaVu Sans Mono", serif;
+        }
+
+        .main-value {
+            flex: 1;
+            font-family: "DejaVu Sans Mono", serif;
+        }
+
+        .table-row {
+            display: inline-flex;
         }
     }
 </style>

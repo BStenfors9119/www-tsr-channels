@@ -13,9 +13,6 @@
     export let zip = null;
     export let providers = [];
 
-		console.log('providers zip');
-		console.log(zip);
-
     onMount(() => {
         load(zip)
           .then(providersResp => {
@@ -94,21 +91,24 @@
             border-radius: 10px;
             background-color: var(--buttonColor);
             color: white;
+
         }
         button.large {
             width: 250px;
         }
         .container {
+            text-align: center;
+            margin: 0 auto;
             width: 100%;
-            height: 100%;
-            display: flex;
-            justify-items: flex-start;
-            overflow-x: hidden;
-            overflow-y: scroll;
+            overflow: auto;
+            cursor: pointer;
         }
-        .inner-container {
-            padding: 5px;
-            width: 85vw;
+        .select-button {
+            border-radius: 0px 0px 10px 10px;
+            text-align: center;
+            font-size: 25pt;
+            width: 100%;
+            background-color: #999999;
         }
 
     }

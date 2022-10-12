@@ -9,6 +9,9 @@ export const load = (lineupId) => {
         let date = new Date();
         let tzOffset = date.getTimezoneOffset().toString();
 
+        console.log('tz offset');
+        console.log(tzOffset);
+
         const forecastResp = await axios.get(`https://api.thesportsremote.com/api/games/forecast/${lineupId}/${tzOffset}`)
 
         console.log('games');
