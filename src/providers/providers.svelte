@@ -12,6 +12,7 @@
 
     export let zip = null;
     export let providers = [];
+    export let containerHeight = window.innerHeight * .45;
 
     onMount(() => {
         load(zip)
@@ -30,7 +31,7 @@
 </script>
 
 <div class="container"
-     use:cssVariables={{buttonColor, bodyColor}}>
+     use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     {#each providers as provider, idx}
         <Card
             title={`${provider.name}`}
@@ -99,9 +100,9 @@
         .container {
             text-align: center;
             margin: 0 auto;
-            width: 100%;
-            overflow: auto;
+            overflow: scroll;
             cursor: pointer;
+            max-height: var(--containerHeight);
         }
         .select-button {
             border-radius: 0px 0px 10px 10px;

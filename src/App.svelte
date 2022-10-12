@@ -79,6 +79,7 @@
             <div class="inner-container-list">
                 <Providers
                     zip={zip}
+                    containerHeight={listHeight}
                     on:providerSelected={onProviderSelected}
                 />
             </div>
@@ -88,6 +89,7 @@
             <div class="listings-container">
                 <Listings
                     listings={listings}
+                    containerHeight={listHeight}
                 />
             </div>
         {/if}
@@ -222,7 +224,7 @@
         }
         .inner-container-list {
             max-height: var(--listHeight)px;
-            overflow: auto;
+            overflow: scroll;
         }
         .instructions {
             font-size: 18pt;
@@ -230,7 +232,8 @@
             font-family: "DejaVu Sans Mono", serif;
         }
         .listings-container {
-            width: 100%;
+            max-height: var(--listHeight)px;
+            overflow: scroll;
         }
         .sub-title {
             flex: auto;

@@ -3,6 +3,7 @@
     import Card from '../components/Card.svelte';
 
     export let listings = [];
+    export let containerHeight = window.innerHeight * .45;
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
@@ -24,7 +25,7 @@
 </script>
 
 <div class="container"
-     use:cssVariables={{buttonColor, bodyColor}}>
+     use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     {#each Array(numOfRows) as _, rowIdx}
 
         <div class="item-row">
@@ -203,9 +204,9 @@
         .container {
             text-align: center;
             margin: 0 auto;
-            width: 100%;
-            overflow: auto;
+            overflow: scroll;
             cursor: pointer;
+            max-height: var(--containerHeight);
         }
         .game-card {
             padding: 3px;
