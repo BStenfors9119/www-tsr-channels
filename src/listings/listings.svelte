@@ -13,9 +13,9 @@
 
 
     const getActiveListing = (rowIdx, itemsPerRowIdx) => {
-        let listing = listings[itemsPerRowIdx];
+        let listing = itemsPerRowIdx > 1 ? listings[itemsPerRowIdx] : listings[rowIdx];
 
-        if(rowIdx > 0) {
+        if(rowIdx > 0 && itemsPerRow > 1) {
             const colIdx = itemsPerRowIdx + itemsPerRow;
             listing = listings[colIdx];
         }
@@ -24,7 +24,7 @@
     }
 </script>
 
-<div class="container"
+<div class="container" style="max-height: {containerHeight}px;"
      use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     {#each Array(numOfRows) as _, rowIdx}
 
@@ -206,7 +206,7 @@
             margin: 0 auto;
             overflow: scroll;
             cursor: pointer;
-            max-height: var(--containerHeight);
+            max-height: var(--containerHeight)px;
         }
         .game-card {
             padding: 3px;

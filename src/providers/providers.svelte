@@ -30,7 +30,7 @@
     }
 </script>
 
-<div class="container"
+<div class="container" style="max-height: {containerHeight}px;"
      use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     {#each providers as provider, idx}
         <Card
@@ -102,7 +102,6 @@
             margin: 0 auto;
             overflow: scroll;
             cursor: pointer;
-            max-height: var(--containerHeight);
         }
         .select-button {
             border-radius: 0px 0px 10px 10px;

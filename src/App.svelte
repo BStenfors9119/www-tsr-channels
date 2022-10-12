@@ -79,7 +79,6 @@
             <div class="inner-container-list">
                 <Providers
                     zip={zip}
-                    containerHeight={listHeight}
                     on:providerSelected={onProviderSelected}
                 />
             </div>
@@ -89,7 +88,6 @@
             <div class="listings-container">
                 <Listings
                     listings={listings}
-                    containerHeight={listHeight}
                 />
             </div>
         {/if}
