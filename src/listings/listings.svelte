@@ -3,7 +3,7 @@
     import Card from '../components/Card.svelte';
 
     export let listings = [];
-    export let containerHeight = window.innerHeight * .45;
+    export let containerHeight = window.innerHeight * .55;
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
@@ -221,7 +221,7 @@
             font-size: 32pt;
         }
         .item-row {
-            display: inline-flex;
+
         }
         .listing {
             display: inline-flex;
