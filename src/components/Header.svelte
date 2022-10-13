@@ -22,7 +22,7 @@
         .container {
             display: flex;
             width: 100%;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
             justify-items: baseline;
             min-height: 50px;

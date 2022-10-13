@@ -1,10 +1,9 @@
 <script xmlns:svelte="http://www.w3.org/1999/html">
-  import {createEventDispatcher, onMount, setContext} from 'svelte';
+  import { fade } from 'svelte/transition';
   import {FaBuilding} from 'svelte-icons/fa';
   import { cssVariables } from "./dynamic-css-vars";
 
   import Header from './components/Header.svelte';
-  import Footer from './components/Footer.svelte';
   import Clients from './clients/clients.svelte';
   import Locations from './locations/locations.svelte';
   import Providers from './providers/providers.svelte';
@@ -12,18 +11,20 @@
 
   import { load } from './listings/listings';
 
-  let listHeight = window.innerHeight * .4;
+  let listHeight = window.innerHeight * .8;
   let bodyColor = '#E9E9E9';
   let buttonColor = '#1A3662';
   let showBorders = false;
   let zip = '';
   let validZip = false;
 
-  let promise = null;
   $: currentUser = null;
+  $: listings = [];
+
+  let providerSelected = false;
+  let promise = null;
   let selectedNav = "0";
   let navClicked = null;
-  let listings = [];
   let cities = [];
   let teamSchedules = [];
   let locations = [];
@@ -41,38 +42,64 @@
     }
   ]
 
-  const onProviderSelected = cev => {
-		console.log('on provider selected');
-        console.log(cev.detail.selectedProvider);
+  const onProviderSelected = async cev => {
         zip = '';
+        providerSelected = true;
         const selectedProvider = cev.detail.selectedProvider;
-       load(selectedProvider.lineup_id)
-           .then(resp => {
-               listings = resp;
-           })
-}
+        listings = await load(selectedProvider.lineup_id);
+
+  }
+
+  const onStartOver = () => {
+      listings = [];
+      providerSelected = false;
+      zip = '';
+  }
 
 </script>
 
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
-    <div class="bg-wrapper">
-        <img class="bg-img" src="/images/social-1200.png" alt="TheSportsRemote.com"/>
-    </div>
+
+    {#if listings.length === 0 && providerSelected}
+        <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
+            <img class="bg-img-full-opacity"
+                 src="/images/social-1200.png"
+                 alt="TheSportsRemote.com"/>
+        </div>
+    {:else}
+        <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
+            <img class="bg-img"
+                 src="/images/social-1200.png"
+                 alt="TheSportsRemote.com"/>
+        </div>
+    {/if}
+    {#if listings.length > 0}
+        <Header dropShadowColor="#8ABD5F">
+            <svelte:fragment slot="left-item" />
+            <svelte:fragment slot="center-item">
+                <input type="button" value="Start Over" on:click={onStartOver} />
+            </svelte:fragment>
+        </Header>
+    {/if}
     <div class="container">
-        <div class="inner-container">
-            <p class="instructions">
-                This is designed to help you find the channel to your game for the exact city you're currently in and
-                cable provider you're using.
-            </p>
-        </div>
-        <div class="inner-container">
-            <label class="sub-title">STEP 1: </label>
-        </div>
-        <div class="inner-container">
-            <input bind:value={zip} placeholder="Enter Zip Code" />
-        </div>
-        {#if (!isNaN(zip) && zip.length === 5) || (isNaN(zip) && zip.length >= 3)}
+        {#if ((!isNaN(zip) && zip.length< 5) || (isNaN(zip) && zip.length < 3))
+            && !providerSelected}
+            <div class="inner-container">
+                <p class="instructions">
+                    This is designed to help you find the channel to your game for the exact city you're currently in and
+                    cable provider you're using.
+                </p>
+            </div>
+            <div class="inner-container">
+                <label class="sub-title">STEP 1: </label>
+            </div>
+            <div class="inner-container">
+                <input
+                    bind:value={zip} placeholder="Enter Zip Code" />
+            </div>
+        {/if}
+        {#if (!isNaN(zip) && zip.length === 5) || (isNaN(zip) && zip.length >= 3) && !providerSelected}
             <div class="inner-container">
                 <label class="sub-title">STEP 2 (Select a Provider):</label>
             </div>
@@ -196,6 +223,11 @@
         }
         .bg-img {
             opacity: .15;
+            width: 60%;
+            height: 60%;
+        }
+        .bg-img-full-opacity {
+            opacity: 1;
             width: 60%;
             height: 60%;
         }
