@@ -94,6 +94,17 @@
         </Header>
     {/if}
     <div class="container">
+        <div class="mobile-market-buttons">
+            <div class="ios">
+                <a href='https://apps.apple.com/app/id1510651916'><img alt='Download at Apple iOS Market' src="/images/download-ios.svg"/></a>
+            </div>
+            <div class="android">
+                <a href='https://play.google.com/store/apps/details?id=com.sodapopsystems.social.tsr&hl=en_US&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+                   style={{bottom: 3, position: 'relative'}}>
+                    <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="128"/>
+                </a>
+            </div>
+        </div>
         {#if ((!isNaN(zip) && zip.length< 5) || (isNaN(zip) && zip.length < 3))
             && !providerSelected && !refreshing}
             <div class="inner-container">
@@ -101,6 +112,7 @@
                     This is designed to help you find the channel to your game for the exact city you're currently in and
                     cable provider you're using.
                 </p>
+
             </div>
             <div class="inner-container">
                 <label class="sub-title">STEP 1: </label>
@@ -276,6 +288,26 @@
             max-height: var(--listHeight)px;
             overflow: scroll;
         }
+        .mobile-market-buttons {
+            display: flex;
+        }
+        .mobile-market-buttons > .ios {
+            flex: 6;
+            text-align: right;
+            justify-items: baseline;
+            justify-content: flex-end;
+        }
+        .mobile-market-buttons > .android {
+            flex: 6;
+            justify-items: baseline;
+            bottom: 10px;
+            position: relative;
+        }
+        .mobile-market-buttons > .android > a > img {
+            width: 145px;
+            height: 60px;
+        }
+
         .sub-title {
             flex: auto;
             font-weight: bold;

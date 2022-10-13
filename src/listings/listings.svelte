@@ -3,7 +3,7 @@
     import Card from '../components/Card.svelte';
 
     export let listings = [];
-    export let containerHeight = window.innerHeight * .87;
+    export let containerHeight = window.innerHeight * .8;
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
@@ -218,7 +218,7 @@
         .info-header {
             font-family: "DejaVu Sans Mono", serif;
             font-weight: bold;
-            font-size: 32pt;
+            font-size: 28pt;
         }
         .item-row {
 
@@ -230,13 +230,6 @@
         .matchup {
             padding: 5px;
             flex: 4;
-        }
-        .select-button {
-            border-radius: 0px 0px 10px 10px;
-            text-align: center;
-            font-size: 25pt;
-            width: 100%;
-            background-color: #999999;
         }
         .team {
             display: inline-flex;
