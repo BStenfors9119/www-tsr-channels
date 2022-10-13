@@ -18,6 +18,31 @@
 </div>
 
 <style>
+    @media screen and (min-width: 1081px) and (max-width: 2560px) {
+        .container {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: center;
+            justify-items: baseline;
+            min-height: 50px;
+        }
+
+        .left-item {
+            flex: 4;
+            text-align: right;
+            justify-items: baseline;
+            justify-content: flex-end;
+        }
+
+        .center-item {
+            flex: 4
+        }
+
+        .right-item {
+            flex: 4;
+        }
+    }
     @media screen and (min-width: 0px) and (max-width: 1080px) {
         .container {
             display: flex;

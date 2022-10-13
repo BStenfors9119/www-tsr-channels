@@ -9,14 +9,17 @@
     let buttonColor = '#1A3662';
     let width = window.innerWidth;
     const itemsPerRow = width >= 1081 ?  3 : 1;
-    const numOfRows = Math.round(listings.length / itemsPerRow);
+    let numOfRows = Math.round(listings.length / itemsPerRow);
 
+
+    if((numOfRows * itemsPerRow) < listings.length) {
+        numOfRows += 1
+    }
 
     const getActiveListing = (rowIdx, itemsPerRowIdx) => {
-        let listing = itemsPerRowIdx > 1 ? listings[itemsPerRowIdx] : listings[rowIdx];
-
+        let listing = itemsPerRow > 1 ? listings[itemsPerRowIdx] : listings[rowIdx + itemsPerRowIdx];
         if(rowIdx > 0 && itemsPerRow > 1) {
-            const colIdx = itemsPerRowIdx + itemsPerRow;
+            const colIdx = (rowIdx * itemsPerRow) + itemsPerRowIdx;
             listing = listings[colIdx];
         }
 
@@ -27,60 +30,61 @@
 <div class="container" style="max-height: {containerHeight}px;"
      use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     {#each Array(numOfRows) as _, rowIdx}
-
         <div class="item-row">
-        {#each Array(itemsPerRow) as _, idx}
-            {@const listing = getActiveListing(rowIdx, idx)}
-            {#if listing !== undefined}
-                <div class="game-card">
-                    <Card
-                            titleColor="#A6A6A6"
-                            cardWidth={'20vw'}
-                            showActions={false}
-                    >
-                        <svelte:fragment slot="children">
-                            <div class="listing">
-                                <div class="matchup">
-                                    <div>
-                                        <div class="team">
-                                            <div class="team-logo">
-                                                <img src={listing.game.teamOneLogo} width="64" alt={listing.game.teamOne} />
+            {#each Array(itemsPerRow) as _, idx}
+                {@const listing = getActiveListing(rowIdx, idx)}
+                {#if listing !== undefined}
+                    <div class="game-card">
+                        <Card
+                                titleColor="#A6A6A6"
+                                cardWidth={'20vw'}
+                                showActions={false}
+                        >
+                            <svelte:fragment slot="children">
+                                <div class="listing">
+                                    <div class="matchup">
+                                        <div>
+                                            <div class="team">
+                                                <div class="team-logo">
+                                                    <img src={listing.game.teamOneLogo} width="64" alt={listing.game.teamOne} />
+                                                </div>
+                                                <div class="team-score">
+                                                    <label>{listing.game.scoreInfo.teamOneScore}</label>
+                                                </div>
                                             </div>
-                                            <div class="team-score">
-                                                <label>{listing.game.scoreInfo.teamOneScore}</label>
+                                        </div>
+                                        <div class="vs">
+                                            vs
+                                        </div>
+                                        <div>
+                                            <div class="team">
+                                                <div class="team-logo">
+                                                    <img src={listing.game.teamTwoLogo} width="64" alt={listing.game.teamTwo} />
+                                                </div>
+                                                <div>
+                                                    <label class="team-score">{listing.game.scoreInfo.teamTwoScore}</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="vs">
-                                        vs
-                                    </div>
-                                    <div>
-                                        <div class="team">
-                                            <div class="team-logo">
-                                                <img src={listing.game.teamTwoLogo} width="64" alt={listing.game.teamTwo} />
-                                            </div>
-                                            <div>
-                                                <label class="team-score">{listing.game.scoreInfo.teamTwoScore}</label>
-                                            </div>
+                                    <div class="game-info">
+                                        <div>
+                                            <label class="info-header">CHANNELS</label>
+                                        </div>
+                                        <div>
+                                            {#each listing.game.providers[0].channels as channel, providerIdx}
+                                                <div class="channel-info"><label class="channel">{channel.channel}</label> ({channel.network})</div>
+                                            {/each}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="game-info">
-                                    <div>
-                                        <label class="info-header">CHANNELS</label>
-                                    </div>
-                                    <div>
-                                        {#each listing.game.providers[0].channels as channel, providerIdx}
-                                            <div class="channel-info"><label class="channel">{channel.channel}</label> ({channel.network})</div>
-                                        {/each}
-                                    </div>
-                                </div>
-                            </div>
-                        </svelte:fragment>
-                    </Card>
-                </div>
-            {/if}
-        {/each}
+                            </svelte:fragment>
+                        </Card>
+                    </div>
+                {:else}
+                    <div class="game-card"></div>
+                {/if}
+            {/each}
         </div>
 
     {/each}
@@ -145,13 +149,6 @@
         .matchup {
             padding: 5px;
             flex: 4;
-        }
-        .select-button {
-            border-radius: 0px 0px 10px 10px;
-            text-align: center;
-            font-size: 25pt;
-            width: 100%;
-            background-color: #999999;
         }
         .team {
             display: inline-flex;

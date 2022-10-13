@@ -176,8 +176,10 @@
             width: 60%;
             height: 60%;
         }
-        .bold-title-letter {
-            color: darkgreen;
+        .bg-img-full-opacity {
+            opacity: 1;
+            width: 60%;
+            height: 60%;
         }
         .main {
             left: 0px;
@@ -209,6 +211,25 @@
         }
         .listings-container {
             width: 100%;
+        }
+        .mobile-market-buttons {
+            display: flex;
+        }
+        .mobile-market-buttons > .ios {
+            flex: 6;
+            text-align: right;
+            justify-items: baseline;
+            justify-content: flex-end;
+        }
+        .mobile-market-buttons > .android {
+            flex: 6;
+            justify-items: baseline;
+            bottom: 10px;
+            position: relative;
+        }
+        .mobile-market-buttons > .android > a > img {
+            width: 145px;
+            height: 60px;
         }
         .sub-title {
             flex: auto;
@@ -253,9 +274,6 @@
             opacity: 1;
             width: 60%;
             height: 60%;
-        }
-        .bold-title-letter {
-            color: darkgreen;
         }
         .main {
             left: 0px;
