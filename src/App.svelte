@@ -4,8 +4,6 @@
   import { cssVariables } from "./dynamic-css-vars";
 
   import Header from './components/Header.svelte';
-  import Clients from './clients/clients.svelte';
-  import Locations from './locations/locations.svelte';
   import Providers from './providers/providers.svelte';
   import Listings from './listings/listings.svelte';
 
@@ -13,7 +11,7 @@
 
   let listHeight = window.innerHeight * .8;
   let bodyColor = '#E9E9E9';
-  let buttonColor = '#1A3662';
+  let buttonColor = '#1b7902';
   let showBorders = false;
   let zip = '';
   let validZip = false;
@@ -21,10 +19,12 @@
   $: currentUser = null;
   $: listings = [];
 
+  let refreshing = false;
   let providerSelected = false;
   let promise = null;
   let selectedNav = "0";
   let navClicked = null;
+  let selectedProvider = null;
   let cities = [];
   let teamSchedules = [];
   let locations = [];
@@ -45,7 +45,7 @@
   const onProviderSelected = async cev => {
         zip = '';
         providerSelected = true;
-        const selectedProvider = cev.detail.selectedProvider;
+        selectedProvider = cev.detail.selectedProvider;
         listings = await load(selectedProvider.lineup_id);
 
   }
@@ -56,18 +56,27 @@
       zip = '';
   }
 
+  const onRefresh = async () => {
+      refreshing = true;
+      listings = [];
+      providerSelected = false;
+      listings = await load(selectedProvider.lineup_id);
+      providerSelected = true;
+      refreshing = false;
+  }
+
 </script>
 
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
 
-    {#if listings.length === 0 && providerSelected}
+    {#if (listings.length === 0 && providerSelected) || refreshing}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img-full-opacity"
                  src="/images/social-1200.png"
                  alt="TheSportsRemote.com"/>
         </div>
-    {:else}
+    {:else if listings.length > 0 || !refreshing}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img"
                  src="/images/social-1200.png"
@@ -76,15 +85,17 @@
     {/if}
     {#if listings.length > 0}
         <Header dropShadowColor="#8ABD5F">
-            <svelte:fragment slot="left-item" />
-            <svelte:fragment slot="center-item">
-                <input type="button" value="Start Over" on:click={onStartOver} />
+            <svelte:fragment slot="left-item" >
+                <button on:click={onStartOver} >Start Over</button>
+            </svelte:fragment>
+            <svelte:fragment slot="right-item">
+                <button on:click={onRefresh} >Refresh</button>
             </svelte:fragment>
         </Header>
     {/if}
     <div class="container">
         {#if ((!isNaN(zip) && zip.length< 5) || (isNaN(zip) && zip.length < 3))
-            && !providerSelected}
+            && !providerSelected && !refreshing}
             <div class="inner-container">
                 <p class="instructions">
                     This is designed to help you find the channel to your game for the exact city you're currently in and

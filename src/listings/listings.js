@@ -1,8 +1,4 @@
 import axios from 'axios';
-import _ from 'underscore';
-import moment from 'moment-timezone';
-import {useScores} from "../data/scores";
-import {convertToCurrentTzTime} from "../shared/tsr-time";
 
 export const load = (lineupId) => {
     return new Promise(async (res, rej) => {

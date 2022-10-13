@@ -12,7 +12,7 @@
 
     export let zip = null;
     export let providers = [];
-    export let containerHeight = window.innerHeight * .93;
+    export let containerHeight = window.innerHeight * .98;
 
     onMount(() => {
         load(zip)
