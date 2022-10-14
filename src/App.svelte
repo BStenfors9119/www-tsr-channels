@@ -105,7 +105,7 @@
                 </a>
             </div>
         </div>
-        {#if ((!isNaN(zip) && zip.length< 5) || (isNaN(zip) && zip.length < 3))
+        {#if ((!isNaN(zip) && zip.length < 5) || (isNaN(zip) && zip.length < 6))
             && !providerSelected && !refreshing}
             <div class="inner-container">
                 <p class="instructions">
@@ -122,7 +122,7 @@
                     bind:value={zip} placeholder="Enter Zip Code" />
             </div>
         {/if}
-        {#if (!isNaN(zip) && zip.length === 5) || (isNaN(zip) && zip.length >= 3) && !providerSelected}
+        {#if (!isNaN(zip) && zip.length === 5) || (isNaN(zip) && zip.length >= 6) && !providerSelected}
             <div class="inner-container">
                 <label class="sub-title">STEP 2 (Select a Provider):</label>
             </div>
