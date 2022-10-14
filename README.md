@@ -2,8 +2,6 @@
 
 ## Demo
 
----
-
 https://manage.thesportsremote.com
 
 ### Suggested ptions to use for instant results:
@@ -15,8 +13,6 @@ https://manage.thesportsremote.com
 </ol>
 
 ## Local Dev
-
----
 
 <ol>
     <li>Clone the repo</li>
