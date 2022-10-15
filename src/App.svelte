@@ -49,11 +49,13 @@
         selectedProvider = cev.detail.selectedProvider;
         selectedProviderCityInfo = cev.detail.cityInfo;
 
-        console.log('selected provider info');
-        console.log(selectedProviderCityInfo);
-        selectedProvider = {...selectedProviderCityInfo, ...selectedProvider};
-        console.log(selectedProvider);
-        listings = await load(selectedProvider);
+      selectedProvider['importFolder'] = selectedProviderCityInfo['importFolder'];
+      selectedProvider['cityImportFolder'] = selectedProviderCityInfo['importFolder'];
+      selectedProviderCityInfo['provider'] = selectedProvider;
+      selectedProviderCityInfo['cityId'] = selectedProvider.city_id;
+      selectedProviderCityInfo['lineupId'] = selectedProvider.lineup_id;
+
+      listings = await load(selectedProviderCityInfo);
 
   }
 
@@ -77,20 +79,26 @@
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
 
-    {#if (listings.length === 0 && providerSelected) || refreshing}
+    {#if (listings !== null && listings.length === 0 && providerSelected) || refreshing}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img-full-opacity"
                  src="/images/social-1200.png"
                  alt="TheSportsRemote.com"/>
         </div>
-    {:else if listings.length > 0 || !refreshing}
+    {:else if listings !== null && listings.length > 0 || !refreshing}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img"
                  src="/images/social-1200.png"
                  alt="TheSportsRemote.com"/>
         </div>
+    {:else}
+        <div class="bg-wrapper">
+            <img class="bg-img"
+                 src="/images/social-1200.png"
+                 alt="TheSportsRemote.com"/>
+        </div>
     {/if}
-    {#if listings.length > 0}
+    {#if listings !== null && listings.length > 0}
         <Header dropShadowColor="#8ABD5F">
             <svelte:fragment slot="left-item" >
                 <button on:click={onStartOver} >Start Over</button>
@@ -112,6 +120,42 @@
                 </a>
             </div>
         </div>
+        {#if providerSelected}
+            <div class="currently-importing-lineup">
+                <p class="currently-importing-lineup-instructions">
+                    Thank you for your support and choosing TheSportsRemote.
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    If your listings do not show in the next few seconds chances are we are creating a fresh batch just for you!
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Please check back in a few minutes and they will be ready for your viewing.
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Don't forget to download the app from your phone's market up top!
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Thank you for your support!
+                </p>
+            </div>
+        {/if}
+        {#if listings === null}
+            <div class="currently-importing-lineup">
+                <p class="currently-importing-lineup-instructions">
+                    Congratulations! You just added a new city / provider combination to TheSportsRemote's list!
+
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Please give the system 5 minutes to download your listings then check back.
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Don't forget to download the app from your phone's market up top!
+                </p>
+                <p class="currently-importing-lineup-instructions">
+                    Thank you for your support!
+                </p>
+            </div>
+        {/if}
         {#if ((!isNaN(zip) && zip.length < 5) || (isNaN(zip) && zip.length < 6))
             && !providerSelected && !refreshing}
             <div class="inner-container">
@@ -141,7 +185,7 @@
             </div>
         {/if}
 
-        {#if listings.length > 0}
+        {#if listings !== null && listings.length > 0}
             <div class="listings-container">
                 <Listings
                     listings={listings}
@@ -187,6 +231,19 @@
             opacity: 1;
             width: 60%;
             height: 60%;
+        }
+        .currently-importing-lineup {
+            width: 100%;
+            display: inline-flex;
+            flex-direction: column;
+        }
+        .currently-importing-lineup-instructions {
+            width: 50%;
+            margin: 0 auto;
+            font-size: 18pt;
+            color: #999999;
+            font-family: "DejaVu Sans Mono", serif;
+            padding: 10px;
         }
         .main {
             left: 0px;
@@ -281,6 +338,11 @@
             opacity: 1;
             width: 60%;
             height: 60%;
+        }
+        .currently-importing-lineup {
+            margin: 0 auto;
+            top: 50%;
+            left: 50%;
         }
         .main {
             left: 0px;
