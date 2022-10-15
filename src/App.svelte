@@ -170,7 +170,9 @@
                     This is designed to help you find the channel to your game for the exact city you're currently in and
                     cable provider you're using.
                 </p>
-
+                <p class="instructions">
+                    Don't forget to download the app from your phone's market up top!
+                </p>
             </div>
             <div class="inner-container">
                 <label class="sub-title">STEP 1: </label>
