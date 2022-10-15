@@ -25,6 +25,7 @@
   let selectedNav = "0";
   let navClicked = null;
   let selectedProvider = null;
+  let selectedProviderCityInfo = null;
   let cities = [];
   let teamSchedules = [];
   let locations = [];
@@ -46,7 +47,13 @@
         zip = '';
         providerSelected = true;
         selectedProvider = cev.detail.selectedProvider;
-        listings = await load(selectedProvider.lineup_id);
+        selectedProviderCityInfo = cev.detail.cityInfo;
+
+        console.log('selected provider info');
+        console.log(selectedProviderCityInfo);
+        selectedProvider = {...selectedProviderCityInfo, ...selectedProvider};
+        console.log(selectedProvider);
+        listings = await load(selectedProvider);
 
   }
 

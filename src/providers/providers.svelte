@@ -9,6 +9,7 @@
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
+    let providersInfoResp = null;
 
     export let zip = null;
     export let providers = [];
@@ -17,7 +18,12 @@
     onMount(() => {
         load(zip)
           .then(providersResp => {
-            providers = providersResp;
+          console.log('providersResp');
+          console.log(providersResp);
+              providersInfoResp = providersResp;
+            providers = providersResp.providers;
+            console.log('providers');
+            console.log(providers);
           })
     })
 
@@ -25,7 +31,8 @@
         console.log('provider selected');
 
         dispatch('providerSelected', {
-                selectedProvider: provider
+            selectedProvider: provider,
+            cityInfo: providersInfoResp.city
         })
     }
 </script>
