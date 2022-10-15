@@ -1,5 +1,6 @@
 <script xmlns:svelte="http://www.w3.org/1999/html">
-  import { fade } from 'svelte/transition';
+    import { onMount } from "svelte";
+    import { fade } from 'svelte/transition';
   import {FaBuilding} from 'svelte-icons/fa';
   import { cssVariables } from "./dynamic-css-vars";
 
@@ -42,6 +43,7 @@
       icon: FaBuilding
     }
   ]
+    let zipInput;
 
   const onProviderSelected = async cev => {
         zip = '';
@@ -69,10 +71,14 @@
       refreshing = true;
       listings = [];
       providerSelected = false;
-      listings = await load(selectedProvider.lineup_id);
+      listings = await load(selectedProviderCityInfo);
       providerSelected = true;
       refreshing = false;
   }
+
+  onMount(() => {
+      zipInput.focus();
+  })
 
 </script>
 
@@ -98,29 +104,30 @@
                  alt="TheSportsRemote.com"/>
         </div>
     {/if}
-    {#if listings !== null && listings.length > 0}
         <Header dropShadowColor="#8ABD5F">
             <svelte:fragment slot="left-item" >
-                <button on:click={onStartOver} >Start Over</button>
+
+            </svelte:fragment>
+            <svelte:fragment slot="center-item">
+                <div class="mobile-market-buttons">
+                    <div class="ios">
+                        <a href='https://apps.apple.com/app/id1510651916'><img alt='Download at Apple iOS Market' src="/images/download-ios.svg"/></a>
+                    </div>
+                    <div class="android">
+                        <a href='https://play.google.com/store/apps/details?id=com.sodapopsystems.social.tsr&hl=en_US&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+                           style={{bottom: 3, position: 'relative'}}>
+                            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="128"/>
+                        </a>
+                    </div>
+                </div>
             </svelte:fragment>
             <svelte:fragment slot="right-item">
-                <button on:click={onRefresh} >Refresh</button>
+
             </svelte:fragment>
-        </Header>
-    {/if}
+    </Header>
     <div class="container">
-        <div class="mobile-market-buttons">
-            <div class="ios">
-                <a href='https://apps.apple.com/app/id1510651916'><img alt='Download at Apple iOS Market' src="/images/download-ios.svg"/></a>
-            </div>
-            <div class="android">
-                <a href='https://play.google.com/store/apps/details?id=com.sodapopsystems.social.tsr&hl=en_US&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
-                   style={{bottom: 3, position: 'relative'}}>
-                    <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="128"/>
-                </a>
-            </div>
-        </div>
-        {#if providerSelected}
+
+        {#if providerSelected && (Array.isArray(listings) && listings.length === 0)}
             <div class="currently-importing-lineup">
                 <p class="currently-importing-lineup-instructions">
                     Thank you for your support and choosing TheSportsRemote.
@@ -170,7 +177,7 @@
             </div>
             <div class="inner-container">
                 <input
-                    bind:value={zip} placeholder="Enter Zip Code" />
+                    bind:value={zip} bind:this={zipInput} placeholder="Enter Zip Code" />
             </div>
         {/if}
         {#if (!isNaN(zip) && zip.length === 5) || (isNaN(zip) && zip.length >= 6) && !providerSelected}
@@ -187,6 +194,14 @@
 
         {#if listings !== null && listings.length > 0}
             <div class="listings-container">
+                <div class="listings-toolbar">
+                    <div class="listings-toolbar-left-item">
+                        <button on:click={onStartOver} >Start Over</button>
+                    </div>
+                    <div class="listings-toolbar-right-item">
+                        <button on:click={onRefresh} >Refresh</button>
+                    </div>
+                </div>
                 <Listings
                     listings={listings}
                 />
@@ -276,6 +291,20 @@
         .listings-container {
             width: 100%;
         }
+        .listings-toolbar {
+            display: flex;
+            flex-direction: row;
+        }
+        .listings-toolbar-left-item {
+            flex: 6;
+            text-align: center;
+            padding: 10px;
+        }
+        .listings-toolbar-right-item {
+            flex: 6;
+            text-align: center;
+            padding: 10px;
+        }
         .mobile-market-buttons {
             display: flex;
         }
@@ -340,9 +369,31 @@
             height: 60%;
         }
         .currently-importing-lineup {
+            width: 100%;
+            display: inline-flex;
+            flex-direction: column;
+        }
+        .currently-importing-lineup-instructions {
+            width: 50%;
             margin: 0 auto;
-            top: 50%;
-            left: 50%;
+            font-size: 18pt;
+            color: #999999;
+            font-family: "DejaVu Sans Mono", serif;
+            padding: 10px;
+        }
+        .listings-toolbar {
+            display: flex;
+            flex-direction: row;
+        }
+        .listings-toolbar-left-item {
+            flex: 6;
+            text-align: center;
+            padding: 10px;
+        }
+        .listings-toolbar-right-item {
+            flex: 6;
+            text-align: center;
+            padding: 10px;
         }
         .main {
             left: 0px;

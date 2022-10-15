@@ -18,18 +18,12 @@
     onMount(() => {
         load(zip)
           .then(providersResp => {
-          console.log('providersResp');
-          console.log(providersResp);
               providersInfoResp = providersResp;
             providers = providersResp.providers;
-            console.log('providers');
-            console.log(providers);
           })
     })
 
     const providerSelected = provider => {
-        console.log('provider selected');
-
         dispatch('providerSelected', {
             selectedProvider: provider,
             cityInfo: providersInfoResp.city

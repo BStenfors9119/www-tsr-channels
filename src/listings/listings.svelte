@@ -22,13 +22,13 @@
             const colIdx = (rowIdx * itemsPerRow) + itemsPerRowIdx;
             listing = listings[colIdx];
         }
-
         return listing;
     }
 </script>
 
 <div class="container" style="max-height: {containerHeight}px;"
      use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
+
     {#each Array(numOfRows) as _, rowIdx}
         <div class="item-row">
             {#each Array(itemsPerRow) as _, idx}
@@ -42,41 +42,49 @@
                         >
                             <svelte:fragment slot="children">
                                 <div class="listing">
-                                    <div class="matchup">
+                                    <div class="game-status">
                                         <div>
-                                            <div class="team">
-                                                <div class="team-logo">
-                                                    <img src={listing.game.teamOneLogo} width="64" alt={listing.game.teamOne} />
+                                            <label class="game-status-label">{listing.gameStatus}</label>
+                                        </div>
+                                    </div>
+                                    <div class="game-details">
+                                        <div class="matchup">
+                                            <div>
+                                                <div class="team">
+                                                    <div class="team-logo">
+                                                        <img src={listing.game.teamOneLogo} width="64" alt={listing.game.teamOne} />
+                                                    </div>
+                                                    <div class="team-score">
+                                                        <label>{listing.game.scoreInfo.teamOneScore}</label>
+                                                    </div>
                                                 </div>
-                                                <div class="team-score">
-                                                    <label>{listing.game.scoreInfo.teamOneScore}</label>
+                                            </div>
+                                            <div class="vs">
+                                                vs
+                                            </div>
+                                            <div>
+                                                <div class="team">
+                                                    <div class="team-logo">
+                                                        <img src={listing.game.teamTwoLogo} width="64" alt={listing.game.teamTwo} />
+                                                    </div>
+                                                    <div>
+                                                        <label class="team-score">{listing.game.scoreInfo.teamTwoScore}</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="vs">
-                                            vs
-                                        </div>
-                                        <div>
-                                            <div class="team">
-                                                <div class="team-logo">
-                                                    <img src={listing.game.teamTwoLogo} width="64" alt={listing.game.teamTwo} />
-                                                </div>
-                                                <div>
-                                                    <label class="team-score">{listing.game.scoreInfo.teamTwoScore}</label>
-                                                </div>
+                                        <div class="game-info">
+                                            <div>
+                                                <label class="info-header">CHANNELS</label>
+                                            </div>
+                                            <div>
+                                                {#each listing.game.providers[0].channels as channel, providerIdx}
+                                                    <div class="channel-info"><label class="channel">{channel.channel}</label> ({channel.network})</div>
+                                                {/each}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="game-info">
-                                        <div>
-                                            <label class="info-header">CHANNELS</label>
-                                        </div>
-                                        <div>
-                                            {#each listing.game.providers[0].channels as channel, providerIdx}
-                                                <div class="channel-info"><label class="channel">{channel.channel}</label> ({channel.network})</div>
-                                            {/each}
-                                        </div>
-                                    </div>
+
                                 </div>
                             </svelte:fragment>
                         </Card>
@@ -130,9 +138,22 @@
         .game-card {
             padding: 3px;
         }
+        .game-details {
+            display: inline-flex;
+        }
         .game-info {
             flex: 8;
             text-align: left;
+        }
+        .game-status {
+            flex: 12
+        }
+        .game-status-label {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 20pt;
+            color: #1b7902;
+            opacity: .7;
         }
         .info-header {
             font-family: "DejaVu Sans Mono", serif;
@@ -144,6 +165,7 @@
         }
         .listing {
             display: inline-flex;
+            flex-direction: column;
             padding: 3px;
         }
         .matchup {
@@ -160,6 +182,8 @@
             font-family: "DejaVu Sans Mono", serif;
             font-weight: bold;
             font-size: 32pt;
+            color: #1b7902;
+            opacity: .7;
         }
         .vs {
             font-family: "DejaVu Sans Mono", serif;
@@ -208,9 +232,22 @@
         .game-card {
             padding: 3px;
         }
+        .game-details {
+            display: inline-flex;
+        }
         .game-info {
             flex: 8;
             text-align: left;
+        }
+        .game-status {
+            flex: 12
+        }
+        .game-status-label {
+            font-family: "DejaVu Sans Mono", serif;
+            font-weight: bold;
+            font-size: 20pt;
+            color: #1b7902;
+            opacity: .7;
         }
         .info-header {
             font-family: "DejaVu Sans Mono", serif;
@@ -222,6 +259,7 @@
         }
         .listing {
             display: inline-flex;
+            flex-direction: column;
             padding: 3px;
         }
         .matchup {
@@ -238,6 +276,8 @@
             font-family: "DejaVu Sans Mono", serif;
             font-weight: bold;
             font-size: 32pt;
+            color: #1b7902;
+            opacity: .7;
         }
         .vs {
             font-family: "DejaVu Sans Mono", serif;
