@@ -15,6 +15,6 @@ export const load = (providerInfo) => {
         console.log('forecast resp');
         console.log(forecastResp);
 
-        res(forecastResp.data.games);
+        res(forecastResp.data.games[0]);
     })
   }

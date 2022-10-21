@@ -57,6 +57,9 @@
       selectedProviderCityInfo['cityId'] = selectedProvider.city_id;
       selectedProviderCityInfo['lineupId'] = selectedProvider.lineup_id;
 
+      console.log('selected provider city info');
+      console.log(selectedProviderCityInfo);
+
       listings = await load(selectedProviderCityInfo);
 
   }
