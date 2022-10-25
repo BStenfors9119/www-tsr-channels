@@ -1,9 +1,13 @@
 <script>
+    import moment from 'moment';
     import { cssVariables } from "../dynamic-css-vars";
     import Card from '../components/Card.svelte';
+    import {createEventDispatcher} from "svelte";
 
     export let listings = [];
     export let containerHeight = window.innerHeight * .8;
+
+    const dispatch = createEventDispatcher();
 
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
@@ -17,12 +21,42 @@
     }
 
     const getActiveListing = (rowIdx, itemsPerRowIdx) => {
+        let localDate = new Date();
         let listing = itemsPerRow > 1 ? listings[itemsPerRowIdx] : listings[rowIdx + itemsPerRowIdx];
         if(rowIdx > 0 && itemsPerRow > 1) {
             const colIdx = (rowIdx * itemsPerRow) + itemsPerRowIdx;
             listing = listings[colIdx];
         }
+
+        if(listing !== undefined) {
+            const tzOffset = localDate.getTimezoneOffset();
+            const gameStatusJsDate = new Date(listing.gameStatus);
+            const easternGameStatus = moment(listing.gameStatus);
+
+            const gameStatusSplit = listing.gameStatus.split(' ');
+            if(gameStatusSplit[5] === 'AM' || gameStatusSplit[5] === 'PM') {
+                gameStatusSplit[4] = listing.name;
+                gameStatusSplit[gameStatusSplit.length - 1] = '';
+                gameStatusSplit[gameStatusSplit.length - 2] = '';
+                listing.gameStatus = gameStatusSplit.join(" ");
+            }
+
+
+            listing['odds'] = '';
+            let eventOdds = listing.game.scoreInfo.eventOdds;
+            if ( eventOdds !== undefined && eventOdds !== '') {
+                eventOdds = eventOdds[0];
+                listing['odds'] = `${eventOdds.details} (O/U ${eventOdds.overUnder})`
+            }
+        }
+
         return listing;
+    }
+
+    const gameSelected = game => {
+        dispatch('gameSelected', {
+            selectedGame: game
+        })
     }
 </script>
 
@@ -34,17 +68,25 @@
             {#each Array(itemsPerRow) as _, idx}
                 {@const listing = getActiveListing(rowIdx, idx)}
                 {#if listing !== undefined}
-                    <div class="game-card">
+                    <div class="game-card" on:click={() => {
+                        gameSelected(listing);
+                    }}>
                         <Card
                                 titleColor="#A6A6A6"
                                 cardWidth={'20vw'}
                                 showActions={false}
+                                on:click={() => {
+                                    gameSelected(listing);
+                                }}
                         >
                             <svelte:fragment slot="children">
                                 <div class="listing">
-                                    <div class="game-status">
-                                        <div>
-                                            <label class="game-status-label">{listing.gameStatus}</label>
+                                    <div class="game-header">
+                                        <div class="game-header-col-1">
+                                            <img width="32" src={listing.game.leagueLogo} alt={listing.game.league} />
+                                        </div>
+                                        <div class="game-header-col-2">
+                                            <label class="game-status-label">{listing.odds}</label>
                                         </div>
                                     </div>
                                     <div class="game-details">
@@ -84,7 +126,13 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="game-footer">
+                                        <div class="game-status">
+                                            <div>
+                                                <label class="game-status-label">{listing.gameStatus}</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </svelte:fragment>
                         </Card>
@@ -140,6 +188,23 @@
         }
         .game-details {
             display: inline-flex;
+        }
+        .game-header {
+            flex: 1;
+            flex-direction: row;
+        }
+        .game-header-col-1 {
+            flex: 1;
+        }
+        .game-header-col-2 {
+            flex: 11;
+        }
+        .game-header-col-3 {
+            flex: 1;
+            flex-direction: row;
+        }
+        .game-footer {
+
         }
         .game-info {
             flex: 8;

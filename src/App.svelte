@@ -7,6 +7,7 @@
   import Header from './components/Header.svelte';
   import Providers from './providers/providers.svelte';
   import Listings from './listings/listings.svelte';
+  import GameInfo from './gameInfo/gameInfo.svelte';
 
   import { load } from './listings/listings';
 
@@ -17,9 +18,11 @@
   let zip = '';
   let validZip = false;
 
+  $: selectedGameInfo = null;
   $: currentUser = null;
   $: listings = [];
 
+  let gameSelected = false;
   let refreshing = false;
   let providerSelected = false;
   let promise = null;
@@ -57,11 +60,13 @@
       selectedProviderCityInfo['cityId'] = selectedProvider.city_id;
       selectedProviderCityInfo['lineupId'] = selectedProvider.lineup_id;
 
-      console.log('selected provider city info');
-      console.log(selectedProviderCityInfo);
-
       listings = await load(selectedProviderCityInfo);
 
+  }
+
+  const onGameSelected = async ev => {
+      gameSelected = true;
+      selectedGameInfo = ev.detail.selectedGame;
   }
 
   const onStartOver = () => {
@@ -88,13 +93,13 @@
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
 
-    {#if (listings !== null && listings.length === 0 && providerSelected) || refreshing}
+    {#if (listings !== null && listings.length === 0 && providerSelected) || refreshing && !gameSelected}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img-full-opacity"
                  src="/images/social-1200.png"
                  alt="TheSportsRemote.com"/>
         </div>
-    {:else if listings !== null && listings.length > 0 || !refreshing}
+    {:else if listings !== null && listings.length > 0 || !refreshing && !gameSelected}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img"
                  src="/images/social-1200.png"
@@ -197,7 +202,13 @@
             </div>
         {/if}
 
-        {#if listings !== null && listings.length > 0}
+        {#if selectedGameInfo !== null}
+            <div class="listings-container">
+                <GameInfo gameInfo={selectedGameInfo} />
+            </div>
+        {/if}
+
+        {#if listings !== null && listings.length > 0 && !gameSelected}
             <div class="listings-container">
                 <div class="listings-toolbar">
                     <div class="listings-toolbar-left-item">
@@ -209,6 +220,7 @@
                 </div>
                 <Listings
                     listings={listings}
+                    on:gameSelected={onGameSelected}
                 />
             </div>
         {/if}
