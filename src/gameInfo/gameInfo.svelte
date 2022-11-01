@@ -8,11 +8,15 @@
     let bodyColor = '#E9E9E9';
     let buttonColor = '#1A3662';
     let width = window.innerWidth;
+
+    const gameSituation = gameInfo.game.scoreInfo.everythingElse[0].competitions[0].situation;
 </script>
 
 <div class="container"
      use:cssVariables={{buttonColor, bodyColor, containerHeight}}>
     <Card
+            title={gameInfo.game.matchup}
+            titleSize="15pt"
             titleColor="#A6A6A6"
             cardWidth={'20vw'}
             showActions={false}>
@@ -59,9 +63,11 @@
                 <label class="game-status-label">
                     {gameInfo.gameStatus}
                 </label><br />
-                <label class="game-status-label">
-                    Last Play: <br />{gameInfo.game.scoreInfo.everythingElse[0].competitions[0].situation.lastPlay.text}
-                </label>
+                {#if gameSituation !== undefined}
+                    <label class="game-status-label">
+                        Last Play: <br />{gameSituation.lastPlay.text}
+                    </label>
+                {/if}
             </div>
         </svelte:fragment>
     </Card>

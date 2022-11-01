@@ -1,4 +1,5 @@
 <script xmlns:svelte="http://www.w3.org/1999/html">
+    import Routes from './routes.svelte';
     import { onMount } from "svelte";
     import { fade } from 'svelte/transition';
   import {FaBuilding} from 'svelte-icons/fa';
@@ -92,7 +93,7 @@
 
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
-
+    <Routes />
     {#if (listings !== null && listings.length === 0 && providerSelected) || refreshing && !gameSelected}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
             <img class="bg-img-full-opacity"

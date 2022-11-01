@@ -124,7 +124,7 @@
         .title {
             flex: auto;
             font-weight: bold;
-            font-size: 18pt;
+            font-size: var(--titleSize);
             color: var(--titleColor);
         }
 
