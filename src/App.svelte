@@ -94,6 +94,8 @@
 
 <div class="main"
     use:cssVariables={{buttonColor, bodyColor, listHeight}}>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5219816238161850"
+            crossorigin="anonymous"></script>
     <Routes />
     {#if (listings !== null && listings.length === 0 && providerSelected) || refreshing && !gameSelected}
         <div class="bg-wrapper" in:fade="{{duration: 2000}}" out:fade="{{duration: 2000}}">
