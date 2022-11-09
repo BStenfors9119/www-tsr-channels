@@ -87,6 +87,7 @@
 
   onMount(() => {
       zipInput.focus();
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
   })
 
 </script>
